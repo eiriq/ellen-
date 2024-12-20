@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Uma frase pra você :)</title>
+    <style>
+        :root {
+            --background-color: #28242c;
+            --accent-color-light: #d7c5f1;
+            --accent-color-dark: #8f819a;
+            --text-shadow: 0 0 10px rgba(215, 197, 241, 0.5);
+        }
+
+        body {
+            margin: 0;
+            background-color: var(--background-color);
+            color: var(--accent-color-light);
+            font-family: 'Ubuntu', sans-serif;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            overflow: hidden;
+        }
+
+        h1 {
+            font-size: 1.6rem;
+            text-align: center;
+            text-shadow: var(--text-shadow);
+            margin: 1rem 0;
+            padding: 0 1rem;
+        }
+
+        .spin-container {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 200px;
+        }
+
+        .spin-btn {
+            background-color: var(--accent-color-dark);
+            color: var(--background-color);
+            border: none;
+            border-radius: 25px;
+            padding: 1rem 1.5rem;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+            position: absolute;
+            top: 0;
+        }
+
+        .spin-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 15px var(--accent-color-light);
+            background-color: var(--accent-color-light);
+        }
+
+        .spin-btn.moved {
+            top: 150px;
+        }
+
+        .spinner {
+            display: none;
+            width: 50px;
+            height: 50px;
+            border: 5px solid var(--accent-color-light);
+            border-top: 5px solid var(--accent-color-dark);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        @keyframes spin {
+            0% { transform: translate(-50%, -50%) rotate(0deg); }
+            100% { transform: translate(-50%, -50%) rotate(360deg); }
+        }
+
+        .info-btn {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background-color: var(--accent-color-light);
+            color: var(--background-color);
+            border: none;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            font-size: 1.5rem;
+            font-weight: bold;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            box-shadow: 0 0 10px var(--accent-color-light);
+            transition: transform 0.3s ease;
+        }
+
+        .info-btn:hover {
+            transform: scale(1.1);
+        }
+
+        .close-btn {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: transparent;
+            border: none;
+            color: var(--accent-color-light);
+            font-size: 2.5rem;
+            cursor: pointer;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: transform 0.3s ease;
+            z-index: 2;
+        }
+
+        .close-btn:hover {
+            transform: rotate(90deg);
+        }
+
+        .popup-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: none;
+            z-index: 999;
+        }
+
+        .popup {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: var(--background-color);
+            color: var(--accent-color-light);
+            border: 2px solid var(--accent-color-light);
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 0 20px var(--accent-color-dark);
+            text-align: center;
+            z-index: 1000;
+            display: none;
+            min-width: 300px;
+            max-width: 80%;
+        }
+
+        .popup p {
+            margin: 0;
+            padding: 0;
+            font-size: 1.1rem;
+            line-height: 1.6;
+        }
+    </style>
+</head>
+<body>
+    <button class="info-btn" onclick="togglePopup()">i</button>
+    <button class="close-btn" onclick="window.location.href='home.html'">&times;</button>
+
+    <h1>Uma frase pra você :)</h1>
+
+    <div class="spin-container">
+        <button class="spin-btn" onclick="startSpin()">Girar</button>
+        <div class="spinner" id="spinner"></div>
+    </div>
+
+    <div class="popup-overlay" id="popup-overlay" onclick="closePopup()"></div>
+    <div class="popup" id="info-popup">
+        <p>Clique no botão "Girar" para receber uma frase especial para você meu amor! Fiz com carinho!</p> 
+    </div>
+
+    <script>
+        const frases = [
+            "Ellen, você ilumina meus dias com o seu sorriso.",
+            "Seus olhos, Ellen, são o meu lugar favorito para me perder.",
+            "Ellen, estar ao seu lado faz o mundo parecer perfeito.",
+            "Cada momento com você, Ellen, é um presente inestimável.",
+            "Ellen, seu amor é a melodia que dá sentido à minha vida.",
+            "Meu coração bate mais forte toda vez que penso em você, Ellen.",
+            "Ellen, você é a razão dos meus melhores sonhos.",
+            "A cada dia, amo mais você, Ellen.",
+            "Ellen, seu toque é a calmaria que preciso na vida.",
+            "Meu mundo é mais brilhante por causa de você, Ellen.",
+            "Ellen, você é meu lugar seguro e meu maior amor.",
+            "Cada dia ao seu lado é uma nova aventura, Ellen.",
+            "Seu amor, Ellen, é a maior bênção que eu já recebi.",
+            "Ellen, você é minha inspiração e minha felicidade.",
+            "Só você, Ellen, tem a chave do meu coração.",
+            "Ellen, meu coração pertence a você para sempre.",
+            "Seu sorriso, Ellen, é o meu raio de sol em dias nublados.",
+            "Ellen, você faz a vida valer a pena.",
+            "Eu te amo mais do que as palavras podem expressar, Ellen.",
+            "Ellen, você é a estrela mais brilhante no meu céu.",
+            "Com você, Ellen, cada momento é mágico.",
+            "Você é minha melhor amiga e o amor da minha vida, Ellen.",
+            "Ellen, você é a razão do meu riso e das minhas alegrias.",
+            "Ao seu lado, Ellen, eu sou a pessoa mais feliz do mundo.",
+            "Ellen, seu amor é tudo que eu preciso para ser completo.",
+            "Minha vida ganhou sentido quando você entrou nela, Ellen.",
+            "Ellen, você é minha melhor escolha, hoje e sempre.",
+            "Não há ninguém como você, Ellen, e isso me faz te amar ainda mais.",
+            "Ellen, você é a dona do meu coração e dos meus sonhos.",
+            "Cada segundo ao seu lado é um presente precioso, Ellen.",
+            "Ellen, você é meu porto seguro e meu amor eterno.",
+            "Eu nunca me canso de dizer o quanto amo você, Ellen.",
+            "Ellen, estar com você faz tudo valer a pena.",
+            "Seu amor é meu maior tesouro, Ellen.",
+            "Ellen, você é a luz que ilumina minha vida.",
+            "Eu amo você mais a cada dia, Ellen.",
+            "Ellen, estar ao seu lado é meu maior privilégio.",
+            "Você é meu melhor pensamento e minha maior alegria, Ellen.",
+            "Ellen, amo você com todo o meu coração e alma.",
+            "Ellen, você é a melhor parte dos meus dias.",
+            "Meu amor por você só cresce, Ellen.",
+            "Você é minha poesia favorita, Ellen.",
+            "Ellen, seu sorriso é minha felicidade constante.",
+            "Eu amo você mais do que o infinito, Ellen.",
+            "Ellen, você é o meu sempre e para sempre.",
+            "Meu amor por você nunca terá fim, Ellen.",
+            "Ellen, você é minha razão de viver.",
+            "Amo cada detalhe sobre você, Ellen."
+        ];
+
+        function togglePopup() {
+            const popup = document.getElementById('info-popup');
+            const overlay = document.getElementById('popup-overlay');
+            popup.style.display = popup.style.display === 'block' ? 'none' : 'block';
+            overlay.style.display = overlay.style.display === 'block' ? 'none' : 'block';
+        }
+
+        function closePopup() {
+            document.getElementById('info-popup').style.display = 'none';
+            document.getElementById('popup-overlay').style.display = 'none';
+        }
+
+        function startSpin() {
+            const spinner = document.getElementById('spinner');
+            const spinBtn = document.querySelector('.spin-btn');
+
+            spinBtn.classList.add('moved');
+            setTimeout(() => spinner.style.display = 'block', 300);
+
+            setTimeout(() => {
+                spinner.style.display = 'none';
+                showMessage();
+                setTimeout(() => spinBtn.classList.remove('moved'), 500);
+            }, 3000);
+        }
+
+        function showMessage() {
+            const fraseAleatoria = frases[Math.floor(Math.random() * frases.length)];
+            alert(fraseAleatoria);
+        }
+    </script>
+</body>
+</html>
+

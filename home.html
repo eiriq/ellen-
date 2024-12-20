@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mundinho da Princesa - Quarto</title>
+    <style>
+        :root {
+            --background-color: #28242c;
+            --accent-color-light: #d7c5f1;
+            --accent-color-dark: #8f819a;
+            --text-shadow: 0 0 10px rgba(215, 197, 241, 0.5);
+        }
+
+        body {
+            margin: 0;
+            background-color: var(--background-color);
+            color: var(--accent-color-light);
+            font-family: 'Ubuntu', sans-serif;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            overflow: hidden;
+        }
+
+        h1 {
+            font-size: 1.6rem;
+            text-align: center;
+            text-shadow: var(--text-shadow);
+            margin: 1rem 0;
+            padding: 0 1rem;
+        }
+
+        .plus-btn {
+            background-color: var(--accent-color-light);
+            color: var(--background-color);
+            border: none;
+            font-size: 2.5rem;
+            border-radius: 50%;
+            width: 70px;
+            height: 70px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            z-index: 2;
+        }
+
+        .plus-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 15px var(--accent-color-light);
+        }
+
+        .plus-btn.rotating {
+            animation: rotate 0.5s ease;
+        }
+
+        @keyframes rotate {
+            from {
+                transform: rotate(0deg);
+            }
+            to {
+                transform: rotate(180deg);
+            }
+        }
+
+        .menu-container {
+            display: none;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            margin-top: 2rem;
+            padding: 1rem;
+            max-width: 800px;
+            width: 90%;
+            opacity: 0;
+        }
+
+        .menu-container.showing {
+            animation: show-menu 0.5s ease forwards;
+        }
+
+        .menu-container.hiding {
+            animation: hide-menu 0.5s ease forwards;
+        }
+
+        @keyframes show-menu {
+            0% {
+                opacity: 0;
+                transform: scale(0.8);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        @keyframes hide-menu {
+            0% {
+                opacity: 1;
+                transform: scale(1);
+            }
+            100% {
+                opacity: 0;
+                transform: scale(0.8);
+            }
+        }
+
+        .menu-container button {
+            background-color: var(--accent-color-dark);
+            color: var(--background-color);
+            border: none;
+            border-radius: 25px;
+            padding: 1rem 1.5rem;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            min-width: 140px;
+            animation: button-pop 0.5s ease forwards;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        @keyframes button-pop {
+            0% {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .menu-container button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 15px var(--accent-color-light);
+            background-color: var(--accent-color-light);
+        }
+
+        .menu-container button:nth-child(1) { animation-delay: 0.1s; }
+        .menu-container button:nth-child(2) { animation-delay: 0.2s; }
+        .menu-container button:nth-child(3) { animation-delay: 0.3s; }
+        .menu-container button:nth-child(4) { animation-delay: 0.4s; }
+        .menu-container button:nth-child(5) { animation-delay: 0.5s; }
+        .menu-container button:nth-child(6) { animation-delay: 0.6s; }
+
+        .close-btn {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: transparent;
+            border: none;
+            color: var(--accent-color-light);
+            font-size: 2.5rem;
+            cursor: pointer;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: transform 0.3s ease;
+            z-index: 2;
+        }
+
+        .close-btn:hover {
+            transform: rotate(90deg);
+        }
+
+        @media (max-width: 600px) {
+            .menu-container {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 400px) {
+            .menu-container {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <button class="close-btn" onclick="window.location.href='index.html'">&times;</button>
+
+    <h1>Está no seu quarto, meu bem. Aqui você pode escolher várias coisas para você se divertir :)</h1>
+
+    <button class="plus-btn" onclick="toggleMenu()">+</button>
+
+  <div class="menu-container" id="menu-container">
+    <button onclick="window.location.href='doramas.html'">Doramas</button>
+    <button id="passatempos-button">Passatempos</button>
+    <button onclick="window.location.href='conversas.html'">Conversas</button>
+    <button onclick="window.location.href='surpresas.html'">Surpresas</button>
+    <button onclick="window.location.href='series-filmes.html'">Séries/Filmes</button>
+    <button onclick="window.location.href='pedidos.html'">Pedidos</button>
+</div>
+
+<script>
+    document.getElementById('passatempos-button').addEventListener('click', function() {
+        if (confirm('Oi, você vai ser levado pra dois documentos onde você pode passar um tempo quando estiver entediada ou longe de mim ok?:) Aqui, você poderá desde encontrar coisas novas pra aprender, ou descobrir sites divertidos pra passar o tempo, espero que goste, te amo:D!')) {
+            window.location.href = 'https://drive.google.com/drive/folders/1VM9LQTb7RemRmJmkmbEpzuCQ47QeUg65?usp=sharing';
+        }
+    });
+</script>
+    <script>
+        function toggleMenu() {
+            const menu = document.getElementById('menu-container');
+            const plusBtn = document.querySelector('.plus-btn');
+
+            if (menu.style.display === 'grid') {
+                menu.classList.add('hiding');
+                menu.classList.remove('showing');
+                setTimeout(() => {
+                    menu.style.display = 'none';
+                    menu.classList.remove('hiding');
+                }, 500);
+            } else {
+                menu.style.display = 'grid';
+                menu.classList.add('showing');
+                menu.classList.remove('hiding');
+            }
+
+            plusBtn.classList.add('rotating');
+            setTimeout(() => plusBtn.classList.remove('rotating'), 500);
+        }
+    </script>
+</body>
+</html>

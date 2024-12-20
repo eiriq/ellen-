@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mundinho da Princesa - Sobre Você</title>
+    <style>
+        :root {
+            --background-color: #28242c;
+            --accent-color-light: #f8b4d9;
+            --accent-color-dark: #c77f9b;
+            --text-shadow: 0 0 10px rgba(248, 180, 217, 0.5);
+        }
+
+        body {
+            margin: 0;
+            background-color: var(--background-color);
+            color: var(--accent-color-light);
+            font-family: 'Ubuntu', sans-serif;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            overflow: hidden;
+            text-align: center;
+            padding: 2rem;
+        }
+
+        h1 {
+            font-size: 2rem;
+            text-shadow: var(--text-shadow);
+            margin-bottom: 1rem;
+        }
+
+        p {
+            font-size: 1.2rem;
+            line-height: 1.8;
+            margin-bottom: 2rem;
+        }
+
+        .heart {
+            font-size: 3rem;
+            color: var(--accent-color-light);
+            text-shadow: var(--text-shadow);
+            animation: heartbeat 1.5s infinite;
+        }
+
+        @keyframes heartbeat {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.2);
+            }
+        }
+
+        .close-btn {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: transparent;
+            border: none;
+            color: var(--accent-color-light);
+            font-size: 2.5rem;
+            cursor: pointer;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: transform 0.3s ease;
+            z-index: 2;
+        }
+
+        .close-btn:hover {
+            transform: rotate(90deg);
+        }
+
+        .footer {
+            margin-top: auto;
+            font-size: 1rem;
+            color: var(--accent-color-dark);
+            opacity: 0.8;
+        }
+
+    </style>
+</head>
+<body>
+    <button class="close-btn" onclick="window.location.href='index.html'">&times;</button>
+
+    <h1>Para você, meu amor</h1>
+    <p>
+        Eu criei este site porque você é a pessoa mais especial na minha vida. <br>
+        Cada página, cada detalhe, é uma pequena tentativa de mostrar o quanto você significa para mim.
+    </p>
+    <p>
+        Você é meu mundo, minha inspiração e a razão do meu sorriso. Espero que aqui você se sinta abraçada 
+        pelo meu amor, porque foi feito com todo o carinho e dedicação, pensando só em você. ❤️
+    </p>
+    <div class="heart">&#10084;</div>
+
+    <div class="footer">
+        Feito com amor por você, meu bem.
+    </div>
+</body>
+</html>
+

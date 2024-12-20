@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mundinho da Princesa</title>
+    <style>
+        /* Paleta de cores do meu amor, cor dela é roxa*/
+        :root {
+            --background-color: #28242c;
+            --accent-color-light: #d7c5f1;
+            --accent-color-dark: #8f819a;
+            --text-shadow: 0 0 10px rgba(215, 197, 241, 0.5);
+        }
+
+        /* Estilo geral  das cor*/
+        body {
+            margin: 0;
+            background-color: var(--background-color);
+            color: var(--accent-color-light);
+            font-family: 'Ubuntu', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            overflow: hidden;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin: 0;
+            text-shadow: var(--text-shadow);
+        }
+
+        p {
+            margin: 0.5rem 0 2rem 0;
+            font-size: 1.2rem;
+        }
+
+        .container {
+            text-align: center;
+            padding: 2rem;
+        }
+
+        /* Botão de entrar */
+        .enter-btn {
+            background-color: var(--accent-color-light);
+            color: var(--background-color);
+            border: none;
+            padding: 1rem 2.5rem;
+            font-size: 1.2rem;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            min-width: 160px;
+        }
+
+        .enter-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 15px var(--accent-color-light);
+        }
+
+        /* Botão de perfil da foto */
+        .profile-btn {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            border: 3px solid var(--accent-color-light);
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            padding: 0;
+        }
+
+        .profile-btn img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .profile-btn:hover {
+            box-shadow: 0 0 15px var(--accent-color-light);
+            transform: scale(1.05);
+        }
+
+        /* Containers ocultos , desaparecue*/
+        .info-container, .login-container {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: var(--background-color);
+            color: var(--accent-color-light);
+            padding: 3rem;
+            border: 2px solid var(--accent-color-light);
+            border-radius: 20px;
+            text-align: center;
+            z-index: 10;
+            animation: fade-in 0.3s ease;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+            min-width: 320px;
+        }
+
+        .info-container.hidden, .login-container.hidden {
+            animation: fade-out 0.3s ease;
+        }
+
+        @keyframes fade-in {
+            from { opacity: 0; transform: translate(-50%, -48%); }
+            to { opacity: 1; transform: translate(-50%, -50%); }
+        }
+
+        @keyframes fade-out {
+            from { opacity: 1; transform: translate(-50%, -50%); }
+            to { opacity: 0; transform: translate(-50%, -52%); }
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: transparent;
+            border: none;
+            color: var(--accent-color-light);
+            font-size: 2.5rem;
+            cursor: pointer;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: transform 0.3s ease;
+            padding: 0;
+        }
+
+        .close-btn:hover {
+            transform: rotate(90deg);
+        }
+
+        /* Layout do perfil */
+        .info-container {
+            display: none;
+            text-align: center;
+        }
+
+        .info-container p {
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+        }
+
+        .info-container button:not(.close-btn) {
+            background-color: var(--accent-color-dark);
+            color: var(--background-color);
+            padding: 1rem 2.5rem;
+            border-radius: 25px;
+            cursor: pointer;
+            border: none;
+            transition: all 0.3s ease;
+            font-size: 1.2rem;
+            min-width: 180px;
+            margin-top: 1rem;
+            font-weight: 500;
+        }
+
+        .info-container button:not(.close-btn):hover {
+            background-color: var(--accent-color-light);
+            transform: scale(1.05);
+            box-shadow: 0 0 15px rgba(215, 197, 241, 0.3);
+        }
+
+        /* Layout do login */
+        .login-container {
+            display: none;
+        }
+
+        .login-container img {
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            margin-bottom: 2rem;
+            border: 3px solid var(--accent-color-light);
+        }
+
+        .login-container input {
+            display: block;
+            margin: 1rem auto;
+            padding: 1rem 1.5rem;
+            width: 85%;
+            border-radius: 25px;
+            border: 2px solid var(--accent-color-light);
+            background-color: rgba(40, 36, 44, 0.8);
+            color: var(--accent-color-light);
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+        }
+
+        .login-container input:focus {
+            outline: none;
+            border-color: white;
+            box-shadow: 0 0 10px rgba(215, 197, 241, 0.3);
+            transform: scale(1.02);
+        }
+
+        .login-container input::placeholder {
+            color: var(--accent-color-dark);
+        }
+
+        .login-container .enter-btn {
+            margin-top: 1.5rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- Botão de perfil -->
+    <button class="profile-btn" onclick="toggleContainer('info-container')">
+        <img src="princesa.png" alt="Perfil">
+    </button>
+
+    <!-- Conteúdo principal -->
+    <div class="container">
+        <h1>Olá minha princesa :)</h1>
+        <p>Bem vinda ao seu mundinho!</p>
+        <button class="enter-btn" onclick="toggleContainer('login-container')">Entrar</button>
+    </div>
+
+    <!-- Container de informações -->
+    <div class="info-container" id="info-container">
+        <button class="close-btn" onclick="toggleContainer('info-container')">&times;</button>
+        <p>Aqui ficam informações da sua princesa!</p>
+        <button onclick="window.location.href='about.html'">Sobre você</button>
+    </div>
+
+    <!-- Container de login -->
+    <div class="login-container" id="login-container">
+        <button class="close-btn" onclick="toggleContainer('login-container')">&times;</button>
+        <img src="princesa.png" alt="Perfil">
+        <input type="text" placeholder="Nome" id="login-name" autocomplete="off">
+        <input type="password" placeholder="Senha" id="login-password" autocomplete="off">
+        <button class="enter-btn" onclick="validateLogin()">Entrar</button>
+    </div>
+
+    <script>
+        function toggleContainer(id) {
+            const container = document.getElementById(id);
+            if (container.style.display === 'block') {
+                container.classList.add('hidden');
+                setTimeout(() => {
+                    container.style.display = 'none';
+                    container.classList.remove('hidden');
+                }, 300);
+            } else {
+                container.style.display = 'block';
+            }
+        }
+
+        function validateLogin() {
+            const validNames = ["Ellen", "ellen", "Elen", "elen", "princesa", "Princesa"];
+            const validPasswords = ["eu te amo", "euteamo", "eutamo", "te amo", "teamo"];
+
+            const name = document.getElementById("login-name").value.trim();
+            const password = document.getElementById("login-password").value.trim();
+
+            if (!validNames.includes(name) && !validPasswords.includes(password)) {
+                alert("Você errou o nome e a senha, cabeçuda kk, pense de novo.");
+            } else if (!validNames.includes(name)) {
+                alert("O nome está errado... é o seu poxa");
+            } else if (!validPasswords.includes(password)) {
+                alert("A senha, bem, é o sentimento que eu sinto por você:) Eu te... ?");
+            } else {
+                alert("É você meu amor, seja bem-vinda! :)");
+                window.location.href = "home.html";
+            }
+        }
+
+        // Bloqueio de preenchimento automático e colar
+        document.querySelectorAll("input").forEach(input => {
+            input.setAttribute("autocomplete", "off");
+            input.onpaste = e => e.preventDefault();
+        });
+    </script>
+</body>
+</html>

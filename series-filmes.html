@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mundinho da Princesa - Filmes e Séries</title>
+    <style>
+        :root {
+            --background-color: #28242c;
+            --accent-color-light: #d7c5f1;
+            --accent-color-dark: #8f819a;
+            --text-shadow: 0 0 10px rgba(215, 197, 241, 0.5);
+        }
+
+        body {
+            margin: 0;
+            background-color: var(--background-color);
+            color: var(--accent-color-light);
+            font-family: 'Ubuntu', sans-serif;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            overflow: hidden;
+        }
+
+        h1 {
+            font-size: 1.6rem;
+            text-align: center;
+            text-shadow: var(--text-shadow);
+            margin: 1rem 0;
+            padding: 0 1rem;
+        }
+
+        .search-container {
+            position: relative;
+            width: 90%;
+            max-width: 600px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .search-bar {
+            width: 150px;
+            height: 50px;
+            background-color: transparent;
+            border: 2px solid var(--accent-color-light);
+            border-radius: 25px;
+            padding: 0 1rem;
+            color: var(--accent-color-light);
+            font-size: 1rem;
+            outline: none;
+            transition: width 0.5s ease-in-out;
+        }
+
+        .search-bar:hover,
+        .search-bar:focus {
+            width: 100%;
+        }
+
+        .info-btn {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background-color: var(--accent-color-light);
+            color: var(--background-color);
+            border: none;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            font-size: 1.5rem;
+            font-weight: bold;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            box-shadow: 0 0 10px var(--accent-color-light);
+            transition: transform 0.3s ease;
+        }
+
+        .info-btn:hover {
+            transform: scale(1.1);
+        }
+
+        .close-btn {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: transparent;
+            border: none;
+            color: var(--accent-color-light);
+            font-size: 2.5rem;
+            cursor: pointer;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: transform 0.3s ease;
+            z-index: 2;
+        }
+
+        .close-btn:hover {
+            transform: rotate(90deg);
+        }
+
+        .popup-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: none;
+            z-index: 999;
+        }
+
+        .popup {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: var(--background-color);
+            color: var(--accent-color-light);
+            border: 2px solid var(--accent-color-light);
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 0 20px var(--accent-color-dark);
+            text-align: center;
+            z-index: 1000;
+            display: none;
+            min-width: 300px;
+            max-width: 80%;
+        }
+
+        .popup p {
+            margin: 0;
+            padding: 0;
+            font-size: 1.1rem;
+            line-height: 1.6;
+        }
+
+        .explore-btn {
+            background-color: var(--accent-color-dark);
+            color: var(--background-color);
+            border: none;
+            border-radius: 25px;
+            padding: 1rem 1.5rem;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            margin-top: 1rem;
+        }
+
+        .explore-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 15px var(--accent-color-light);
+            background-color: var(--accent-color-light);
+        }
+    </style>
+</head>
+<body>
+    <button class="info-btn" onclick="togglePopup()">i</button>
+    <button class="close-btn" onclick="window.location.href='home.html'">&times;</button>
+
+    <h1>Oi meu bem, pesquise aqui um filme ou série!</h1>
+
+    <div class="search-container">
+        <input type="text" id="search-bar" class="search-bar" placeholder="Digite aqui..." onkeypress="handleSearch(event)">
+    </div>
+
+    <button class="explore-btn" onclick="window.location.href='https://www.google.com/search?q=melhores+filme+de+romance&oq=melhores+filme+de+romance&gs_lcrp=EgZjaHJvbWUyCQgAEEUYORiABDIHCAEQABiABDIMCAIQABgKGLEDGIAEMgoIAxAAGIsDGIAEMgoIBBAAGIsDGIAEMgcIBRAAGIAEMgcIBhAAGIAEMgcIBxAAGIAEMgoICBAAGIsDGIAEMg8ICRAAGAoYiwMYsQMYgATSAQgyODg4ajFqN6gCALACAA&sourceid=chrome&ie=UTF-8'">Conhecer!</button>
+
+    <div class="popup-overlay" id="popup-overlay" onclick="closePopup()"></div>
+    <div class="popup" id="info-popup">
+        <p>Oi meu amor, essa é a página onde você pode assistir vários filmes ou descobrir novos :) Pode explorar o site e ver novos ou pesquisar um mesmo!</p>
+    </div>
+
+    <script>
+        function togglePopup() {
+            const popup = document.getElementById('info-popup');
+            const overlay = document.getElementById('popup-overlay');
+            popup.style.display = popup.style.display === 'block' ? 'none' : 'block';
+            overlay.style.display = overlay.style.display === 'block' ? 'none' : 'block';
+        }
+
+        function closePopup() {
+            const popup = document.getElementById('info-popup');
+            const overlay = document.getElementById('popup-overlay');
+            popup.style.display = 'none';
+            overlay.style.display = 'none';
+        }
+
+        function handleSearch(event) {
+            if (event.key === 'Enter') {
+                const query = event.target.value.trim();
+                if (query) {
+                    const searchUrl = `https://pobreflixtv.cam/pesquisar/?p=${encodeURIComponent(query)}`;
+                    window.location.href = searchUrl;
+                }
+            }
+        }
+    </script>
+</body>
+</html>
