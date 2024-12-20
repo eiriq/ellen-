@@ -163,14 +163,14 @@
 
     <h1>Oi meu bem, digite sua mensagem!</h1>
 
-    <div class="message-container">
-        <textarea class="message-box" placeholder="Digite sua mensagem..."></textarea>
-        <button class="send-btn" onclick="sendMessage()">Enviar</button>
-    </div>
+    <form class="message-container" action="https://formspree.io/f/xbljnkro" method="POST">
+        <textarea class="message-box" name="message" placeholder="Digite sua mensagem..."></textarea>
+        <button class="send-btn" type="submit">Enviar</button>
+    </form>
 
     <div class="popup-overlay" id="popup-overlay" onclick="closePopup()"></div>
     <div class="popup" id="info-popup">
-    <p>Olá meu bem, você quer conversar, falar algo ou desabafar? talvez não esteja em um bom momento ou só quer falar:) Diga o que quiser, quando quiser, e eu sempre vou ler e ouvir! Te amo.</p>
+        <p>Olá meu bem, você quer conversar, falar algo ou desabafar? Talvez não esteja em um bom momento ou só quer falar :) Diga o que quiser, quando quiser, e eu sempre vou ler e ouvir! Te amo.</p>
     </div>
 
     <script>
@@ -186,17 +186,6 @@
             const overlay = document.getElementById('popup-overlay');
             popup.style.display = 'none';
             overlay.style.display = 'none';
-        }
-
-        function sendMessage() {
-            const messageBox = document.querySelector('.message-box');
-            const message = messageBox.value.trim();
-            if (message) {
-                alert(`Mensagem enviada: ${message}`);
-                messageBox.value = '';
-            } else {
-                alert('Por favor, digite uma mensagem antes de enviar.');
-            }
         }
     </script>
 </body>
